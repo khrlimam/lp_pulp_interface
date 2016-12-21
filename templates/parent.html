@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    {% block head %}
     <meta charset="UTF-8">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/vendor/bootstrap/css/bootstrap.min.css') }}"/>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/flat-ui.min.css') }}">
-    <title>{% block title %}Simplex{% endblock %}</title>
+    {% block appcss %}
     {% endblock %}
+    <title>{% block title %}Simplex{% endblock %}</title>
 </head>
 <body>
 <nav class="navbar navbar-inverse navbar-embossed" style="border-radius: 0" role="navigation">
@@ -14,11 +14,11 @@
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-01">
             <span class="sr-only">Toggle navigation</span>
         </button>
-        <a class="navbar-brand" href="#">Linear Programming | Simplex</a>
+        <a class="navbar-brand" href="/">Linear Programming | Simplex</a>
     </div>
     <div class="collapse navbar-collapse" id="navbar-collapse-01">
         <ul class="nav navbar-nav navbar-right">
-            <li><a href="#fakelink">Open Source Libs</a></li>
+            <li><a data-toggle="modal" data-target="#openSourceLibs" href="#openSourceLibs">Open Source Libs</a></li>
             <li><a href="{{ url_for('help') }}">Au ah, Gelap!</a></li>
         </ul>
     </div><!-- /.navbar-collapse -->
@@ -28,6 +28,28 @@
     <h1>Simplex Apps!</h1>
 {% endblock %}
 
+<div class="modal fade" id="openSourceLibs" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header palette-midnight-blue palette">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span class="text-white">×</span>
+                </button>
+                <h4 class="modal-title">Libraries</h4>
+            </div>
+            <div class="modal-body">
+                Brought to you with <span class="fa fa-heart" aria-hidden="true" style="color: red"></span> by <a
+                    href="https://www.facebook.com/khyrulimam" target="_blank">Khairul Imam</a> with the help of the mighty softwares:
+                <ul>
+                    <li><a href="https://www.python.org/">Python</a></li>
+                    <li><a href="http://flask.pocoo.org/">Flask Python Web Framework</a></li>
+                    <li><a href="http://jinja.pocoo.org/">Jinja2 Full Featured Python Template Engine</a></li>
+                    <li><a href="https://pypi.python.org/pypi/PuLP">The Mighty Pulp, Linear Programming Modeler for Python</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
 <script src="{{ url_for('static', filename='js/vendor/jquery.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/flat-ui.min.js') }}"></script>
 <script>
