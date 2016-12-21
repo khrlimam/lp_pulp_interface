@@ -1,0 +1,65 @@
+{% extends 'parentbody.html' %}
+{% block body %}
+<h4>Simplex form</h4>
+<form class="form-group" id="simplexform">
+    <div class="form-group">
+        <input type="text" placeholder="Tentang" required id="title" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <input type="text" class="form-control" required id="objective" placeholder="Fungsi Tujuan">
+    </div>
+    <div class="form-group">
+        <input id="constraints" class="tagsinput" required data-role="tagsinput"
+               placeholder="Fungsi Kendala"/>
+    </div>
+    <div class="form-group">
+        <input id="variables" class="tagsinput" required data-role="tagsinput"
+               placeholder="Variable-variable >= 0"/>
+    </div>
+    <div class="form-group">
+        <input type="checkbox" data-on-text="<i class='fui-triangle-up'></i>"
+               data-off-text="<i class='fui-triangle-down'></i>" name="custom-square-switch-icons"
+               id="zswitch" data-on-color="primary" data-off-color="danger"/>
+        <label id="zplaceholder" class="label label-default"></label>
+        <input type="hidden" id="z">
+    </div>
+    <input type="submit" class="btn btn-primary pull-right" value="Proses">
+</form>
+{% endblock %}
+{% block appscript %}
+<script>
+    var zswitch = $('#zswitch');
+    var simplexform = $('#simplexform');
+    var zplaceholder = $("#zplaceholder");
+    var params = {
+        title: '',
+        objective: '',
+        constraints: '',
+        variables: '',
+        z: ''
+    };
+    zswitch.bootstrapSwitch();
+    zswitch.on('switchChange.bootstrapSwitch', function (e, data) {
+        params.z = (data) ? 1 : 0;
+        text = (data) ? "Z = Maximization" : "Z = Minimization";
+        zplaceholder.text(text);
+    });
+    simplexform.submit(function (e) {
+        e.preventDefault();
+        params.title = $("#title").val();
+        params.constraints = $("#constraints").val();
+        params.objective = $("#objective").val();
+        params.variables = $("#variables").val();
+
+        url = $SCRIPT_ROOT + '/process';
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: params,
+            success: function (responses) {
+                console.log(responses);
+            }
+        });
+    });
+</script>
+{% endblock %}

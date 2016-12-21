@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head %}
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/vendor/bootstrap/css/bootstrap.min.css') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/flat-ui.min.css') }}">
+    <title>{% block title %}Simplex{% endblock %}</title>
+    {% endblock %}
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-embossed" style="border-radius: 0" role="navigation">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-01">
+            <span class="sr-only">Toggle navigation</span>
+        </button>
+        <a class="navbar-brand" href="#">Linear Programming | Simplex</a>
+    </div>
+    <div class="collapse navbar-collapse" id="navbar-collapse-01">
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="#fakelink">Open Source Libs</a></li>
+            <li><a href="{{ url_for('help') }}">Au ah, Gelap!</a></li>
+        </ul>
+    </div><!-- /.navbar-collapse -->
+</nav><!-- /navbar -->
+
+{% block container %}
+    <h1>Simplex Apps!</h1>
+{% endblock %}
+
+<script src="{{ url_for('static', filename='js/vendor/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/flat-ui.min.js') }}"></script>
+<script>
+    //global variable to store app path/base_dir
+    $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+</script>
+{% block appscript %}{% endblock %}
+</body>
+</html>
