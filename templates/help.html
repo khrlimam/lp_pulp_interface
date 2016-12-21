@@ -1,0 +1,34 @@
+{% extends 'parentbody.html' %}
+{% block title %}Help{% endblock %}
+{% block body %}
+    <h4>Sekilas</h4>
+    <p>
+        Aplikasi ini ditujukan untuk menyelesaikan masalah program linear. Permasalahan matematika bisa dikatan
+        masalah program linear jika memenuhi tiga kondisi berikut:
+    <ol>
+        <li>Memiliki <i>decision variable</i>/variabel keputusan</li>
+        <li>Memiliki <i>objective</i>/fungsi tujuan harus dalam bentuk ekspresi linear</li>
+        <li>Memiliki <i>constraints</i>/fungsi kendala juga harus dalam bentuk ekspresi linear</li>
+    </ol>
+    Ekspresi linear memiliki ciri-ciri sbb:
+    <span class="label label-default">a<sub>1</sub>x<sub>1</sub>+a<sub>2</sub>x<sub>2</sub>+a<sub>3</sub>x<sub>3</sub>,...,a<sub>i</sub>x<sub>i</sub> {<=,=,>=} b</span>
+    . Dimana a<sub>i</sub> dan b adalah konstanta dan x<sub>i</sub> adalah variabel.
+    </p>
+    <h4>Cara menggunakan</h4>
+    <p>
+        Cara menggunakan aplikasi ini cukup sederhana, anda hanya perlu memasukkan nilai-nilai pada inputan yang
+        tersedia. Yap! Terlebih dahulu anda harus
+        mengetahui permasalahan, variabel-variabel, fungsi tujuan dan fungsi kendala yang anda miliki. Seperti contoh
+        berikut:
+        <img src="{{ url_for('static', filename='img/tutorial.png') }}" alt="contoh">
+        Contoh diatas menggunakan dua variabel saja, anda bebas menentukan berapapun jumlah variabel yang anda inginkan,
+        karena
+    <blockquote>real life problems are more complicated than just only two variables <br>
+        - <i>Anna Nicanorova</i>
+    </blockquote>
+    Sedikit tambahan, versi aplikasi ini adalah versi <i>quick&dirty</i>, oleh karena itu operator aritmatika pada
+    ekspresi linear harus ditulis dengan jelas.<br>Contoh:
+    <span class="label label-default">12x<sub>1</sub>+2x<sub>2</sub>+10x<sub>3</sub> <= 20</span>
+    ditulis <span class="label label-default">12*x<sub>1</sub>+2*x<sub>2</sub>+10*x<sub>3</sub> <= 20</span>.
+    </p>
+{% endblock %}

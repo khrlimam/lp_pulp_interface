@@ -1,0 +1,97 @@
+{% extends 'parentbody.html' %}
+{% block appcss %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/vendor/fontawesome/css/font-awesome.min.css') }}">
+{% endblock %}
+{% block body %}
+    <h4>Simplex form</h4>
+    <form class="form-group" id="simplexform">
+        <div class="form-group">
+            <input type="text" placeholder="Tentang" required name="title" id="title" class="form-control"/>
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" required name="objective" id="objective"
+                   placeholder="Fungsi Tujuan">
+        </div>
+        <div class="form-group">
+            <input id="constraints" name="constraints" class="tagsinput" required data-role="tagsinput"
+                   placeholder="Fungsi Kendala"/>
+        </div>
+        <div class="form-group">
+            <input id="variables" name="variables" class="tagsinput" required data-role="tagsinput"
+                   placeholder="Variable-variable >= 0"/>
+        </div>
+        <span style="text-align: right" id="result" class="pull-right"></span>
+        <div class="form-group">
+            <input type="checkbox" checked data-on-text="<i class='fui-triangle-up'></i>"
+                   data-off-text="<i class='fui-triangle-down'></i>" name="custom-square-switch-icons"
+                   id="zswitch" data-on-color="primary" data-off-color="danger"/>
+            <label id="zplaceholder" class="label label-default"></label>
+            <input type="hidden" name="z" id="z">
+        </div>
+        <input type="submit" value="Process" class="btn-primary btn"/>
+        <span id="loadingIndicator" class="fa fa-circle-o-notch fa-spin fa-fw"></span>
+    </form>
+{% endblock %}
+{% block appscript %}
+    <script>
+        $(function () {
+            var zswitch = $('#zswitch');
+            var simplexform = $('#simplexform');
+            var zplaceholder = $("#zplaceholder");
+            var loadingIndicator = $("#loadingIndicator");
+            var z = $("#z");
+            var result = $("#result");
+            var params = {
+                title: '',
+                objective: '',
+                constraints: '',
+                variables: '',
+                z: 1
+            };
+
+            loadingIndicator.hide();
+            zswitch.bootstrapSwitch();
+            zplaceholder.text("Z = Maximization");
+
+            zswitch.on('switchChange.bootstrapSwitch', function (e, data) {
+                params.z = (data) ? 1 : 0;
+                text = (data) ? "Z = Maximization" : "Z = Minimization";
+                zplaceholder.text(text);
+            });
+            simplexform.submit(function (e) {
+                e.preventDefault();
+                loadingIndicator.show();
+                params.title = $("#title").val();
+                params.constraints = $("#constraints").val();
+                params.objective = $("#objective").val();
+                params.variables = $("#variables").val();
+                url = $SCRIPT_ROOT + '/process';
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: params,
+                    success: function (responses) {
+                        loadingIndicator.hide();
+                        error = responses.error || false;
+                        if (error) {
+                            result.text(responses.message);
+                            return;
+                        }
+                        htmlResult = "";
+                        z = "<label class='label label-danger'>Nilai Z = " + responses.z + "</label><br>";
+                        varsAndSolutions = ""
+                        execTime = "<label class='label label-success'>Waktu eksekusi = " + responses.execTime + "</label><br>";
+                        for (i = 0; i < responses.varsAndSolution.length; i++) {
+                            varsAndSolutions += "<label class='label label-primary'>Solusi untuk variabel " + responses.varsAndSolution[i].name + " adalah " + responses.varsAndSolution[i].val + "</label><br>"
+                        }
+                        htmlResult = z + varsAndSolutions + execTime;
+                        result.html(htmlResult);
+                    },
+                    error: function (e) {
+                        loadingIndicator.hide();
+                    }
+                });
+            });
+        })
+    </script>
+{% endblock %}
